@@ -38,7 +38,6 @@ export default {
   },
   methods: {
     init() {
-      this.initGraph();
       this.graph.data(this.graphData);
       this.graph.render();
     },
