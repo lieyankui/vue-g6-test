@@ -1,0 +1,45 @@
+// g6 tooltip 样式控制
+.g6-tooltip-container {
+    text-align: left;
+    padding: 12px;
+    padding-top: 0;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.2) ;
+    font-weight: normal;
+    line-height: 22px;
+    color: #595959;
+    .g6-tooltip-body {
+        .g6-tooltip-title {
+            border-bottom: 1px solid #e6ebf3;
+            height: 32px;
+            padding: 0 12px;
+            line-height: 32px;
+            font-weight: 600;
+            color: #01081a;
+        }
+        .g6-tooltip-content {
+            max-width: 360px;
+            max-height: 360px;
+            overflow: auto;
+            .tag {
+                display: inline-block;
+                margin: 4px;
+                padding: 0 8px;
+                background: #FFECE8;
+                border-radius: 4px;
+                line-height: 22px;
+                font-size: 12px;
+            }
+        }
+    }
+}
+.g6-tooltip-text-container {
+    background-color: #fff;
+    padding: 4px 12px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px 0 rgba( 0, 0, 0, 0.2) ;
+    line-height: 22px;
+    color: #595959;
+    // font-size: 14px;
+}
