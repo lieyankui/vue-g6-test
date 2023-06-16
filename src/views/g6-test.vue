@@ -71,7 +71,7 @@ export default {
       allData: [],
       currData: {},
       currIndex: 0,
-      limitNum: 10,
+      limitNum: 7,
       maxIndex: 0,
       limitMaxIndex: 19,
       anchorPointOffset: 0.3,

@@ -1,6 +1,7 @@
 import G6 from "@antv/g6";
 
 const lineDash = [4, 2, 1, 2];
+const CN_REG = new RegExp("[\u4E00-\u9FA5]+");
 
 export function createGraph(g6Option) {
   return new G6.Graph(g6Option);
@@ -53,13 +54,12 @@ export default G6;
 export function fittingString(str, maxWidth, fontSize) {
   let currentWidth = 0;
   let res = str;
-  const pattern = new RegExp("[\u4E00-\u9FA5]+"); // distinguish the Chinese charactors and letters
   const rowArr = [];
   let startIndex = 0;
   // 获取字符下标对应的宽度
   for (let i = 0, length = str.length; i < length; i++) {
     const letter = str[i];
-    if (pattern.test(letter)) {
+    if (CN_REG.test(letter)) {
       currentWidth += fontSize;
     } else {
       currentWidth += G6.Util.getLetterWidth(letter, fontSize);

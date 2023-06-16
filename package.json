@@ -1,5 +1,5 @@
 {
-  "name": "enterprise-risk2",
+  "name": "g6-test",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,11 +10,13 @@
   },
   "dependencies": {
     "@antv/g6": "^4.8.15",
+    "animate.css": "^4.1.1",
     "ant-design-vue": "^1.7.8",
     "core-js": "^3.8.3",
     "echarts": "^4.9.0",
     "lodash": "^4.17.21",
     "normalize.css": "^8.0.1",
+    "resize-observer-polyfill": "^1.5.1",
     "screenfull": "^6.0.2",
     "vue": "^2.6.14",
     "vue-router": "^3.5.1",

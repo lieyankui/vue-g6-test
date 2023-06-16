@@ -15,6 +15,7 @@ import G6, {
   radToDeg,
   getIntersectionPoint,
 } from "@/utils/g6";
+
 const COLOR_CONF = {
   bgColors: {
     1: "#B6E9CA",
@@ -31,10 +32,8 @@ const COLOR_CONF = {
 };
 const lineTypeObj = {
   "can-running-cubic": "cubic",
-  "can-running-horizontal": "cubic",
-  // "can-running-horizontal": "cubic-horizontal",
-  "can-running-vertical": "cubic",
-  // "can-running-vertical": "cubic-vertical",
+  "can-running-horizontal": "cubic-horizontal",
+  "can-running-vertical": "cubic-vertical",
 };
 const lineColor = "#D9D9D9";
 const lineColorHigh = "#5EA8FC";
@@ -46,23 +45,14 @@ function registerEdge() {
       key,
       {
         setState(name, value, item) {
-          const flag = item._cfg.model.flag || "up";
-          const color = flag === "up" ? lineColorHigh : lineColorHigh2;
           const shape = item.get("keyShape");
           if (name === "running" || name === "hover") {
             if (value) {
-              lineAnimate(shape, color);
+              lineAnimate(shape, lineColorHigh);
             } else {
               lineInit(shape, lineColor);
             }
           }
-          // else if (name === "hover") {
-          //   if (value) {
-          //     lineAnimate(shape, color);
-          //   } else {
-          //     lineInit(shape, lineColor);
-          //   }
-          // }
         },
       },
       lineTypeObj[key]
@@ -81,19 +71,6 @@ registerNode(
       let nodeHeight = cfg.height || NODE_HEIGHT;
       let fontSize = 14;
       let fontSizeSmall = 12;
-      if (cfg.nodeFlag === "root" && cfg.r > 250) {
-        const originWidth = nodeWidth;
-        const originHeight = nodeHeight;
-        nodeWidth = Math.floor(cfg.r * 1.6);
-        if (cfg.r > 650) {
-          nodeWidth = Math.floor(cfg.r * 2);
-        }
-        nodeHeight = Math.floor((nodeWidth / originWidth) * originHeight);
-        cfg.x = cfg.x - nodeWidth / 4.3;
-        cfg.y = cfg.y - nodeHeight / 4.3;
-        fontSize = nodeWidth / 12;
-        fontSizeSmall = nodeWidth / 14;
-      }
       const rect = group.addShape("rect", {
         attrs: {
           x: cfg.x || 0,
@@ -266,20 +243,26 @@ export default {
               enableOptimize: true, // 优化，拖拽时会不显示一些内容
             },
           ],
+          // edit: ['click-select'],
         },
         labelCfg: {
           /* label's position, options: center, top, bottom, left, right */
-          // position: "center",
-          // nodeSep: 30,
-          // rankSep: 120,
-          // offset: 12,
+          position: "center",
+          nodeSep: 30,
+          rankSep: 120,
+          offset: 12,
         },
         defaultNode: {
           type: "risk-node",
         },
         defaultEdge: {
+          // type: 'polyline',
+          // cubic、horizontal、cubic-vertical、cubic-horizontal quadratic
           type: "cubic-vertical",
           style: {
+            // radius: 80,
+            // offset: 50,
+            // endArrow: true,
             endArrow: {
               path: G6.Arrow.vee(8, 8),
               fill: "#D9D9D9",
@@ -287,6 +270,9 @@ export default {
             lineWidth: 1,
             stroke: "#D9D9D9",
           },
+          // controlPoints: [{ x: 0, y: 0 }, { x: 50, y: 50 }],
+          // curveOffset: [],
+          // curvePosition: [[0.5, 0.5], [0.5, 0.5]],
           labelCfg: {
             autoRotate: false,
             refX: 15,
@@ -295,7 +281,9 @@ export default {
               lineHeight: 22,
               background: {
                 fill: "#FFFFFF",
+                // fill: '#C9411F',
                 stroke: "#F0F0F0",
+                // stroke: '#FFF',
                 lineWidth: 2,
                 padding: [8, 8, 6, 8],
                 radius: 4,
@@ -310,6 +298,7 @@ export default {
           },
           dark: {
             opacity: 0.2,
+            // fill: "#e6e6e6",
           },
         },
         ...graphOptions,
@@ -350,6 +339,18 @@ export default {
       const graph = this.graph;
       setEdgeHoverStyle(graph, edge, "hover", false, lineColor);
     },
+    clearAllStats() {
+      const graph = this.graph;
+      graph.setAutoPaint(false);
+      graph.getNodes().forEach((node) => {
+        graph.clearItemStates(node);
+      });
+      graph.getEdges().forEach((edge) => {
+        this.edgeDeactive(edge);
+      });
+      graph.paint();
+      graph.setAutoPaint(true);
+    },
     nodeHover(ev) {
       const item = ev.item;
       const graph = this.graph;
@@ -370,18 +371,6 @@ export default {
         if (!source.hasState("highlight")) {
           source?.setState("highlight", true);
         }
-      });
-      graph.paint();
-      graph.setAutoPaint(true);
-    },
-    clearAllStats() {
-      const graph = this.graph;
-      graph.setAutoPaint(false);
-      graph.getNodes().forEach((node) => {
-        graph.clearItemStates(node);
-      });
-      graph.getEdges().forEach((edge) => {
-        this.edgeDeactive(edge);
       });
       graph.paint();
       graph.setAutoPaint(true);

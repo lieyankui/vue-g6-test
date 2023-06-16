@@ -1,6 +1,8 @@
 <template>
   <div id="app">
-    <router-view />
+    <transition name="app" appear>
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -12,8 +14,9 @@
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
+  // text-align: center;
   color: #2c3e50;
+  overflow: hidden;
 }
 
 nav {
@@ -26,6 +29,25 @@ nav {
     &.router-link-exact-active {
       color: #42b983;
     }
+  }
+}
+.app-enter-active {
+  animation: fadeInDown 2s;
+}
+.app-leave-active {
+  animation: fadeOutDown 2s;
+}
+@keyframes move {
+  0% {
+    opacity: 0;
+    transform: translateX(-100%);
+  }
+  60% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
   }
 }
 </style>
